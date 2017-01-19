@@ -29,6 +29,29 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesController extends AppController
 {
 
+//    public $autoRender = false;
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Csrf');
+    }
+    
+    public function startup(){}
+    
+    public function beforeRedirect(\Cake\Event\Event $event, $url, \Cake\Network\Response $response)
+    {
+        parent::beforeRedirect($event, $url, $response);
+    }
+    
+    public function beforeRender(\Cake\Event\Event $event)
+    {
+        // echo "<script>alert('hola mundo');</script>";
+        parent::beforeRender($event);
+    }
+    
+    public function shutdown(){}
+
     /**
      * Displays a view
      *
@@ -66,5 +89,13 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+        
+        
+    }
+    
+    public function about() {
+        $this->autoRender = false;
+        // $this->setAction('display');  -> permite redirigir a otra acción dentro del mismo controlador
+        $this->render();
     }
 }
